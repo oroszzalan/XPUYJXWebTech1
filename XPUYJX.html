@@ -1,0 +1,57 @@
+<!doctype html>
+
+<body>
+  <h1>Alap Git &amp; GitHub parancsok</h1>
+
+  <h2>Konfiguráció</h2>
+    <pre>
+        git config --global user.name  Felhasználói név beállitása ez a commithoz kapcsolódik
+        git config --global user.email Beállizja a Git email címed ez a commithoz kapcsolódik
+        git config --list Kilistázza az összes Git konfigurációt
+    </pre> 
+
+  <h2>Új repo létrehozása</h2>
+    <pre>
+        mkdir projekt-nev Új mappa a projekthez
+        cd projekt-nev Belépés a mappába
+        git init Git repo inicializálása
+        git commit -m "üzenet" Commit létrehozása üzenettel
+    </pre>
+
+  <h2>Klónozás</h2>
+    <pre>
+        git clone https://github.com/felhasznalo/repo.git
+        git clone git@github.com:felhasznalo/repo.git
+
+        meglévő repo másolása saját gépre HTTPS vagy SSH alapján
+    </pre>
+
+  <h2>Változások kezelése</h2>
+    <pre>
+        git status megmutatja a változatott fájlokat a staging areaba
+        git add file.txt hozzáad egy file nevű txt a staging areaba
+    </pre>
+
+  <h2>Push &amp; Pull</h2>
+    <pre>
+        git remote add origin URL kapcsolat egy másik GitHUb repoval
+        git push -u origin main Feltölti a commitokat a main ágra
+        git pull origin main Lehúzza a Githubon lévő változásokat
+    </pre>
+
+  
+
+    <h2>VS Code bővitményeim</h2>
+        <pre>
+            Python
+            Python Debugger
+            Python Environments
+
+        </pre>
+    <h2>Egyéb</h2>
+        <pre>
+            msys64
+        </pre>
+
+</body>
+</html>
