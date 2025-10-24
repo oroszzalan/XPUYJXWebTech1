@@ -1,0 +1,60 @@
+
+tr.elso{
+    background-color: grey;
+    width: 100px;
+    height: 40px;
+}
+
+tr.masodik{
+    background-color: red;
+    width: 100px;
+    height: 70px;
+}
+
+tr.harmadik{
+    background-color: rgb(255, 255, 124);
+    width: 100px;
+    height: 70px;
+    
+}
+
+tr.negyedik{
+    background-color: rgb(255, 255, 124);
+    width: 100px;
+    height: 70px;
+    text-align: left;
+}
+
+table{
+    border-collapse: collapse;
+    margin: 20px;
+    text-align: center;
+    
+
+    
+}
+
+#nulladik{
+    text-align: left;
+}
+
+#elsoig{
+    text-align: right;
+    vertical-align: top;
+}
+
+#masodikig{
+    vertical-align: bottom;
+}
+
+
+#sarga{
+    background-color: yellow;
+    text-align: center;
+}
+
+#scrollcell {
+    width: 100px;
+    height: 60px;
+    overflow: scroll;
+}
