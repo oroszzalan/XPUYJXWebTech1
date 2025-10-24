@@ -1,0 +1,43 @@
+h1{
+    margin-left: 35%;
+}
+table{
+    text-align: center;
+    table-layout: fixed;
+    border-collapse: collapse;
+    margin-left: 22%;
+    width: 60%;
+}
+
+#nincscsik{
+    background-color: rgb(206, 206, 206);
+}
+
+th.fejléc{
+    background-color: rgb(206, 206, 206);
+    border-bottom: 4px solid black;
+}
+
+.ido {
+    background-color: rgb(240, 240, 240);
+    font-weight: bold;
+    border-right: 4px solid black;
+}
+  
+  .hetfo {
+    background-color: rgb(255, 214, 214);
+}
+  
+  .kedd {
+    background-color: rgb(214, 255, 214);
+}
+  
+  .szerda {
+    background-color: rgb(214, 224, 255);
+}
+  
+  .csutortok {
+    background-color: rgb(255, 249, 204);
+}
+
+  
