@@ -54,4 +54,70 @@ const swiper = new  Swiper(".bannerSwiper", {
         swiper: thumbsSwiper,
     },
 
+
 });
+
+
+var explore = document.querySelectorAll(".explore");
+
+var thumbs = document.querySelector(".thumbs");
+var headers = document.querySelectorAll(".title");
+var contents = document.querySelectorAll(".content");
+var slideBtns = document.querySelectorAll(".slide-btn");
+var closeBtns = document.querySelectorAll(".close-btn");
+
+
+explore.forEach((el) => { 
+    el.addEventListener("click", function() {
+
+        thumbs.classList.add("hide");
+        headers.forEach((e) => { 
+            e.classList.add("hide");
+        });
+        el.classList.add("hide");
+        document.querySelector(".swiper-slide-active").classList.add("hide");
+
+
+        contents.forEach((e) => {
+            e.classList.add("hide");
+        });
+
+    });
+});
+
+slideBtns.forEach(el => { 
+    el.addEventListener("click", function() {
+        document.querySelector(".swiper-slide-active").classList.remove("hide");
+        document.querySelector(".swiper-slide-active").classList.add("details");
+    });
+});
+
+
+closeBtns.forEach(el =>{ 
+    el.addEventListener("click", function() {
+        thumbs.classList.remove("hide");
+        document.querySelector(".swiper-slide-active").classList.remove("details");
+        contents.forEach((e) => {
+            e.classList.remove("hide");
+        });
+        headers.forEach((e) => { 
+            e.classList.remove("hide");
+        });
+        explore.forEach((e) => { 
+            e.classList.remove("hide");
+        });
+    });
+});
+
+var overlay = document.querySelector(".overlay");
+var carVideo = document.getElementById("#Revuelto-video");
+
+var showTrailer =() => {
+    var index = swiper.activeIndex;
+    videoContainer.innerHTML = `<video controls autoplay id = "video">
+        <source src="kepek/${nevek[index].videoURL}" type="video/mp4">
+    </video>`;
+    overlay.classList.add("show");
+};
+
+

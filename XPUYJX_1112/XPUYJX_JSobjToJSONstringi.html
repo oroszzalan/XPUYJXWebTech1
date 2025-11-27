@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <title>JSON fájl készítése - JavaScript-ben</title>
+</head>
+<body>
+  <h3>JSON fájl készítése - JavaScript-ben</h3>
+  <p>JSON:</p>
+  <div id="XPUYJX"></div><br>
+  <button onclick="jsonGeneralas()">JSON generálás</button>
+
+  <script>
+    function jsonGeneralas() {
+      const jsObj = [
+        { "Név": "HTML5", "kiterjesztés": ".html" },
+        { "Név": "CSS3", "kiterjesztés": ".css" },
+        { "Név": "JavaScript", "kiterjesztés": ".js" }
+      ];
+
+      const jsonString = JSON.stringify(jsObj);
+      document.getElementById('jsonOutput').innerText = jsonString;
+    }
+  </script>
+</body>
+</html>

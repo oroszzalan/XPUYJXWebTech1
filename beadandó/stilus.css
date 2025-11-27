@@ -74,7 +74,7 @@ a:hover{
     transition: all 0.6s;
 }
 
-.cim{
+.title{
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -86,14 +86,14 @@ a:hover{
     height: 80px !important;
 }
 
-.cim h1{
+.title h1{
     font-size: 50px;
     font-weight: 800;
     text-transform: uppercase;
     animation: slideRight 0.7s cubic-bezier(0.52, 0.19, 0.3, 1.46);
 }
 
-#alcim p{
+#subtitle p{
     margin-top: 20px;
     font-size: 25px;
     text-transform: uppercase;
@@ -234,4 +234,291 @@ button:hover{
     margin-right: -20px !important;
 
     animation: slideLeft 0.5s ease-in-out;
+}
+
+/* explore gombok esemenyek */
+
+.btn-primary.hide {
+    display: none;
+}
+
+.thumbs.hide {
+    transform: translateY(100%);
+}
+
+.swiper-pagination.hide {
+    transform: translateY(300%);
+}
+
+.title.hide {
+    transform: translateY(-300%);
+}
+
+.content.hide {
+    top: 10px;
+    left: 50%;
+    transform: translateX(-54%);
+    width: auto;
+    flex-direction: column;
+    z-index: 2;
+    align-items: center;
+}
+
+.swiper-slide-active.hide img {
+    transform: translateX(0) translateY(30px) scaleX(-1);
+    width: 60%;
+}
+
+.swiper-slide-active.hide .slide-title {
+    display: block;
+}
+
+.swiper-slide-active.hide .slide-side {
+    display: flex;
+}
+
+.swiper-slide-active.hide .slide-btn {
+    display: block;
+}
+
+.slide-title {
+    position: absolute;
+    left: 50%;
+    z-index: -1;
+    font-size: 90px;
+    color: #eeeeee61;
+    line-height: 0.9;
+    text-transform: uppercase;
+    transform: translateX(-50%) translateY(-120px);
+    display: none;
+}
+
+
+.slide-side {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    display: none;
+    animation: slideLeft 0.6s ease;
+}
+
+.slide-btn {
+    animation: zoomIn 0.6s ease;
+    display: none;
+}
+
+.sec-btn {
+    position: absolute;
+    bottom: 15%;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 10px 25px;
+    z-index: 222;
+    border: 1px solid #eee;
+    animation: zoomIn 0.7s ease;
+}
+
+.dot-line{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.dot{
+    width: 12px;
+    height: 12px;
+    background-color: #eee;
+    border-radius: 50%;
+}
+
+.tint-font {
+    font-size: 14px;
+    color: #eee;
+    text-transform: uppercase;
+    font-weight: 300;
+    text-wrap: nowrap;
+}
+
+.shape-line{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.shape-line:hover {
+    scale: 1.15;
+}
+
+.shape {
+    width: 20px;
+    height: 20px;
+    rotate: 45deg;
+    background-image: linear-gradient(to left, #ff0000, #3f0b0b);
+}
+
+/* Szín osztályok */
+.c-2 {
+    background-image: linear-gradient(to left, #FFD700, #b8960a) !important;
+}
+
+.c-3 {
+    background-image: linear-gradient(to left, #FF8C00, #cc6600) !important;
+}
+
+.c-4 {
+    background-image: linear-gradient(to left, #DC143C, #9c0c27) !important;
+}
+
+.c-5 {
+    background-image: linear-gradient(to left, #9932CC, #6b2399) !important;
+}
+
+.c-6 {
+    background-image: linear-gradient(to left, #1E90FF, #1560cc) !important;
+}
+
+.c-7 {
+    background-image: linear-gradient(to left, #228B22, #176917) !important;
+}
+
+.c-8 {
+    background-image: linear-gradient(to left, #808080, #4d4d4d) !important;
+}
+
+.c-9 {
+    background-image: linear-gradient(to left, #000000, #1a1a1a) !important;
+}
+
+.details::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    background: #fff;
+    animation: slideUp 0.4s;
+}
+
+.swiper-slide-active.details img{
+    transition: all 0.6s;
+    transform: translateX(10%) scaleX(-1) !important;
+}
+
+.swiper-slide-active.details .details-inner {
+    display: flex;
+    animation: zoomIn 0.9s;
+}
+
+.swiper-slide-active.details .close-btn {
+    display: block;
+}
+
+.details-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin: 30px;
+    color: #000 !important;
+    text-transform: uppercase !important;
+    text-wrap: nowrap !important;
+    display: none;
+    animation: zoomIn 0.4s ease;
+
+}
+
+.details-container {
+    display: flex;
+    gap: 40px;
+    z-index: 2;
+}
+
+.sec{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.sec-title {
+    font-size: 24px;
+    font-weight: 500;
+    position: relative;
+}
+
+.sec-title::after {
+    content: 'ENGINE';
+    position: absolute;
+    font-size: 44px;
+    font-weight: bold;
+    bottom: -5px;
+    left: 0;
+    color: #00000029;
+}
+
+.text-line{
+    display: flex;
+    gap: 2px;
+    flex-direction: column;
+}
+
+.body-font {
+    color:#00000090;
+}
+
+.close-btn{
+    font-size: 24px;
+    cursor: pointer;
+    position: absolute;
+    top: 20px;
+    left: 49.3%;
+    opacity: 0.7;
+    transition: all 0.5s ease-in-out;
+    display: none;
+    color: #000;
+    z-index: 3333;
+    display: none;
+}
+
+.close-btn:hover{
+    rotate: 180deg;
+    opacity: 1;
+    scale: 1.4;
+    opacity: 1;
+    color: var(--primary);
+}
+
+.overlay {
+    display: none;
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    padding: 20px;
+    background-color: #000000f7;
+    z-index: 1000000;
+    animation: grow 0.7s;
+}
+
+.show {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.overlay i {
+    font-size: 24px;
+    cursor: pointer;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    opacity: 0.7;
+    transition: all 0.5s ease-in-out;
+}
+
+.overlay i:hover {
+    rotate: 180deg;
+    opacity: 1;
+    scale: 1.4;
+    color: var(--primary);
 }

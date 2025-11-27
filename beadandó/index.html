@@ -43,16 +43,16 @@
     <div class="content">
         <img src="kepek/Lamborghini-Logo.png" alt="" class="logo">
      
-        <div class="cim">
-            <div id="cim">
+        <div class="title">
+            <div id="title">
                 <h1>Tervezd meg a saját</h1>
                 <h1>Revueltódat</h1>
             </div>
-            <div id="alcim">
+            <div id="subtitle">
                 <p>FROM NOW ON</p>
             </div>
             <div>
-                <button class="icon-btn">
+                <button class="icon-btn" onclick="showTrailer()">
                     <i class="fa-solid fa-play"></i>
                 </button>
             </div>
@@ -65,6 +65,95 @@
         <div class="swiper bannerSwiper">
             <div class="swiper-wrapper">
                 <div class="swiper-slide">
+
+                    <div class="details-inner">
+                        <h1 class="sec-title">Engine</h1>
+                        <div class="details-container">
+
+                            <div class="sec">
+                                <div class="text-line">
+                                    <h3>OVERVIEW</h3>
+                                    <p class="body-font">
+                                        Lorem ipsum dolor sit amet consectetur
+                                    </p>
+                                </div>
+                                <div class="text-line">
+                                    <h3>Type</h3>
+                                    <p class="body-font">
+                                        Lorem ipsum dolor sit amet consectetur
+                                    </p>
+                                </div>
+                                <div class="text-line">
+                                    <h3>AUGMENTED REALITY</h3>
+                                    <p class="body-font">
+                                        Lorem ipsum dolor sit amet consectetur
+                                    </p>
+                                </div>
+                                <div class="text-line">
+                                    <h3>EXTERIOR</h3>
+                                    <p class="body-font">
+                                        Lorem ipsum dolor sit amet consectetur
+                                    </p>
+                                </div>
+                                <div class="text-line">
+                                    <h3></h3>
+                                    <p class="body-font">
+                                        Lorem ipsum dolor sit amet consectetur
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="sec">
+                                <div class="text-line">
+                                    <h3>HORSEPOWER</h3>
+                                    <p class="body-font">
+                                        819 HP
+                                    </p>
+                                </div>
+                                <div class="text-line">
+                                    <h3>0-100 KM/H</h3>
+                                    <p class="body-font">
+                                        2.5 sec
+                                    </p>
+                                </div>
+                                <div class="text-line">
+                                    <h3>TOP SPEED</h3>
+                                    <p class="body-font">
+                                        >350 km/h (217mph)
+                                    </p>
+                                </div>
+                                <div class="text-line">
+                                    <h3>ENGINE</h3>
+                                    <p class="body-font">
+                                        V12 Hybrid
+                                    </p>
+                                </div>
+
+                                <div class="text-line">
+                                    <h3>DISPLACMENT</h3>
+                                    <p class="body-font">
+                                        6,498 cm³ (396.5 cu in)
+                                    </p>
+                                </div>
+
+                                <div class="text-line">
+                                    <h3>POWER</h3>
+                                    <p class="body-font">
+                                        819 CV (602kW) at 8,500 rpm
+                                    </p>
+                                </div>
+
+                                <div class="text-line">
+                                    <h3>TRANSMISSION</h3>
+                                    <p class="body-font">
+                                        ISR (Independent Shifting Rod) 7-speed
+                                    </p>
+                                </div>
+                        </div>
+                        </div>
+                    
+                    </div>
+
+                    <i class="fa-solid fa-times close-btn"></i>
 
                     <div class="slide-side">
                         <div class="dot-line">
@@ -85,6 +174,7 @@
                     <div class="slide-side">
                         <span class="tin-font">Színek</span>
                         <div class="shape-line">
+                            <div class="shape"></div>
                             <span class="tin-font">Bianco Icarus</span>
                         </div>
                         <div class="shape-line">
@@ -126,10 +216,12 @@
                             <span class="tin-font">Nero Helene</span>
                         </div>
                     </div>
+
+                    <!--külső gomb-->
                     <button class="sec-btn slide-btn">
                         Külső
                     </button>
-                    <h1 class="slide-title">reveulto</h1>
+                    <h1 class="slide-title">revuelto</h1>
 
 
                     <button class="btn-primary explore">
@@ -166,6 +258,10 @@
 
     </div>
 
+    <div class="overlay">
+        <i class="fa-solid fa-times" onclick="closeOverlay();"></i>
+        <div id="Reveulto-video"></div>
+    </div>
     
     
     
