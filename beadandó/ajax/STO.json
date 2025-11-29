@@ -1,0 +1,16 @@
+{
+  "cars": [
+    {
+      "name": "STO",
+      "price": 150000000
+    },
+    {
+      "name": "Huracán EVO Spyder",
+      "price": 120000000
+    },
+    {
+      "name": "Huracán Tecnica",
+      "price": 90000000
+    }
+  ]
+}

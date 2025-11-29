@@ -1,0 +1,16 @@
+{
+  "cars": [
+    {
+      "name": "M3",
+      "price": 150000000
+    },
+    {
+      "name": "M3 Competition",
+      "price": 120000000
+    },
+    {
+      "name": "M3 CS",
+      "price": 90000000
+    }
+  ]
+}

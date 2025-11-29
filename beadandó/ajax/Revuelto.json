@@ -1,0 +1,16 @@
+{
+  "cars": [
+    {
+      "name": "Base",
+      "price": 150000000
+    },
+    {
+      "name": "Sport",
+      "price": 120000000
+    },
+    {
+      "name": "Race",
+      "price": 90000000
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "cars": [
+    {
+      "name": "Mclaren P1",
+      "price": 150000000
+    },
+    {
+      "name": "Mclaren P1 GTR",
+      "price": 120000000
+    },
+    {
+      "name": "Mclaren P1 Anniversary",
+      "price": 90000000
+    }
+  ]
+}

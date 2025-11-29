@@ -1,0 +1,171 @@
+\documentclass[12pt,a4paper]{article}
+% Betűtípus: Times New Roman
+\usepackage{newtxtext,newtxmath}
+
+% Magyar nyelv
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[hungarian]{babel}
+
+% Margók
+\usepackage{geometry}
+\geometry{margin=2.5cm}
+
+% Másfeles sortáv
+\usepackage{setspace}
+\onehalfspacing
+
+% Hiperhivatkozások és tartalomjegyzék
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue
+}
+
+% Sorkizárás\ n\renewcommand\baselinestretch{1.5}
+
+% Képkezelés
+\usepackage{graphicx}
+\usepackage{caption}
+
+% Kódokhoz más betűtípus
+\usepackage{courier}
+\usepackage{listings}
+\lstset{
+    basicstyle=\footnotesize\ttfamily,
+    breaklines=true,
+    frame=single
+}
+
+% Címsorok
+\usepackage{titlesec}
+\titleformat{\section}{\bfseries\fontsize{14}{16}\selectfont}{\thesection}{1em}{}
+\titleformat{\subsection}{\bfseries\fontsize{12}{14}\selectfont}{\thesubsection}{1em}{}
+
+\title{Jegyzőkönyv – Sportautók Weboldal Kódjának Áttekintése}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\newpage
+\maketitle
+
+\section{Bevezetés}
+Ez a jegyzőkönyv a felhasználó által megadott HTML alapú weboldal áttekintését tartalmazza, amely egy sportautó-konfigurátor jellegű felületet mutat be. A dokumentum célja a weboldal szerkezetének, főbb funkcióinak, valamint a kódrészletek szerepének ismertetése.
+
+\section{A projekt célja}
+A projekt célja egy olyan vizuálisan látványos, interaktív weboldal létrehozása, ahol különböző sportautók adatai, képei, színei és konfigurációs lehetőségei böngészhetők.
+
+\section{A főbb technológiák}
+\begin{itemize}
+    \item HTML5 – a weboldal szerkezete
+    \item CSS – stilisztika és elrendezés
+    \item Font Awesome – ikonok megjelenítése
+    \item Swiper.js – képgaléria és slide-effektek
+    \item JavaScript – funkcionalitások vezérlése
+\end{itemize}
+
+\section{Kódszerkezet áttekintése}
+
+\subsection{Fejléc (Header)}
+A weboldal egy mobilbarát, minimalista fejlécet alkalmaz.
+
+\begin{verbatim}
+<header class="header">
+    <i class="fa-solid fa-bars"></i>
+    <nav>
+        <ul>
+            <li><a href="#"><i class="fa-solid fa-magnifying-glass"></i></a></li>
+            <li><a href="#">EN</a></li>
+        </ul>
+    </nav>
+</header>
+\end{verbatim}
+
+\subsection{Fő tartalom (Hero Section)}
+A főoldalon egy Lamborghini logó, címek és egy lejátszás gomb található.
+
+\begin{verbatim}
+<div class="content">
+    <img src="kepek/Lamborghini-Logo.png" class="logo">
+    <div class="title">
+        <h1>Tervezd meg a saját</h1>
+        <h1>Revueltódat</h1>
+        <button class="icon-btn" onclick="showTrailer()">
+            <i class="fa-solid fa-play"></i>
+        </button>
+    </div>
+</div>
+\end{verbatim}
+
+\subsection{Autógaléria (Swiper)}
+A weboldal központi eleme a Swiper.js segítségével létrehozott csúszka.
+
+Példa slide:
+
+\begin{verbatim}
+<div class="swiper-slide">
+    <div class="details-inner">
+        <h1 class="sec-title">Engine</h1>
+        <div class="details-container">
+            <div class="sec">
+                <div class="text-line">
+                    <h3>HORSEPOWER</h3>
+                    <p class="body-font">819 HP</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <img src="kepek/reveulto.webp" alt="" />
+</div>
+\end{verbatim}
+
+\subsection{Színválasztó szekció}
+A felhasználó több szín közül választhat.
+
+\begin{verbatim}
+<div class="shape-line">
+    <div class="shape c-2"></div>
+    <span class="tin-font">giallo Auge</span>
+</div>
+\end{verbatim}
+
+\subsection{Thumbnail slider}
+A csúszkák alatt kis képes navigációs sáv található.
+
+\begin{verbatim}
+<div class="thumbs">
+    <div class="swiper thumbsSwiper">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide"><img src="kepek/reveulto.webp"></div>
+        </div>
+    </div>
+</div>
+\end{verbatim}
+
+\section{Overlay és videólejátszás}
+A weboldal tartalmaz egy videó overlay rendszert.
+
+\begin{verbatim}
+<div class="overlay">
+    <i class="fa-solid fa-times" onclick="closeOverlay();"></i>
+    <div id="car-video"></div>
+</div>
+\end{verbatim}
+
+\section{JavaScript használata}
+A script.js kezeli:
+\begin{itemize}
+    \item az overlay megnyitását és bezárását,
+    \item a Swiper beállításait,
+    \item funkcionális gombok működését.
+\end{itemize}
+
+
+\section{Összegzés}
+A bemutatott projekt modern, felhasználóbarát felépítésű, moduláris kódszerkezettel. A Swiper integráció látványos galériát biztosít, a videó overlay pedig növeli az interaktivitást.
+
+\end{document}
+

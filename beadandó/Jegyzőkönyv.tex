@@ -1,0 +1,268 @@
+\documentclass[a4paper,12pt]{article}
+
+% XeLaTeX / LuaLaTeX alapú Unicode kezelés
+\usepackage{fontspec} % Unicode fontok
+\setmainfont{Lato}    % Google fontod, vagy bármilyen TTF/OTF
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{setspace}
+\usepackage{ragged2e}
+\usepackage{geometry}
+\geometry{margin=2.5cm}
+\setstretch{1.3}
+\justifying
+
+% Kód formázás
+\lstset{
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{blue},
+    commentstyle=\color{green!50!black},
+    stringstyle=\color{red},
+    breaklines=true,
+    frame=single,
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    showstringspaces=false
+}
+\author{}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+\newpage
+
+\section{Bevezetés}
+Ez a dokumentáció a Lamborghini Revuelto megrendelő weboldal teljes kódját és funkcionalitását mutatja be. Az oldal célja, hogy a felhasználó kiválaszthassa a modellt, színt, extrákat, fizetési módot, dátumot, és megjelenítse a rendelés összefoglalóját.
+
+\section{CSS Stílusok}
+A CSS felelős az oldal kinézetéért, animációkért és interaktív elemekért.
+
+\begin{lstlisting}[language=CSS]
+@import url("https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap");
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root { --primary: #b07c0c; }
+
+body {
+    position: relative;
+    height: 100vh;
+    width: 100vw;
+    font-family: 'Lato', sans-serif;
+    font-size: 14px;
+    color: #eee;
+    background: black;
+    overflow: hidden;
+}
+
+/* Fejléc és navigáció */
+.header { display:flex; justify-content:space-between; padding:20px 40px; position:absolute; width:100%; top:0; z-index:1000; }
+nav ul { display:flex; gap:30px; }
+nav ul li a { color:#eee; font-size:20px; text-transform:capitalize; }
+a:hover { color:var(--primary); }
+
+/* Tartalom és animációk */
+.content { display:flex; gap:20px; position:absolute; left:30px; top:16vh; transition:all 0.6s; }
+.title h1 { font-size:50px; font-weight:800; text-transform:uppercase; animation:slideRight 0.7s cubic-bezier(0.52, 0.19, 0.3, 1.46); }
+#subtitle p { margin-top:20px; font-size:25px; animation:slideRight 0.7s; }
+button { font-family:'Lato'; background:transparent; border:none; color:#eee; cursor:pointer; transition:all 0.7s; letter-spacing:2px; animation:slideUp 0.6s; }
+button:hover { transform:scale(1.1); }
+
+.banner { height:calc(100vh - 100px); width:100%; position:absolute; top:0; left:0; }
+.swiper-slide img { object-fit:cover; transform:scaleX(-1); }
+.thumbsSwiper .swiper-slide:hover { transform:scale(1.1); }
+.slide-title { font-size:90px; color:#eeeeee61; text-transform:uppercase; display:none; }
+.buy-btn { font-size:30px; position:absolute; bottom:70px; left:49.3%; cursor:pointer; display:none; transition:all 0.5s ease-in-out; color:#000; z-index:3333; }
+
+.overlay { display:none; height:100vh; width:100vw; position:fixed; padding:20px; background-color:#000000f7; z-index:1000000; animation:grow 0.7s; }
+
+/* Animációk */
+@keyframes slideLeft { 0% {opacity:0; transform:translateX(300%);} 100% {opacity:1; transform:translateX(0);} }
+@keyframes slideRight { 0% {opacity:0; transform:translateX(-130px);} 100% {opacity:1; transform:translateX(0);} }
+@keyframes slideUp { 0% {opacity:0; transform:translateY(200%);} 100% {opacity:1; transform:translateY(0);} }
+@keyframes zoomIn { 0% {opacity:0; transform:scale(0);} 100% {opacity:1; transform:scale(1);} }
+\end{lstlisting}
+
+\section{HTML Szerkezet}
+A weboldal HTML struktúrája tartalmazza a formot, videó háttér elemet, és a rendelés összefoglalót.
+
+\begin{lstlisting}[language=HTML]
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8">
+<title>Lamborghini Revuelto Megrendelés</title>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet" href="styles/order.css">
+</head>
+<body>
+
+<video autoplay muted loop id="background-video">
+    <source src="kepek/revuelto.mp4" type="video/mp4">
+</video>
+
+<h1>Lamborghini Revuelto Megrendelés</h1>
+
+<form id="carOrderForm">
+    <label for="name">Név:</label>
+    <input type="text" id="name" name="name">
+    <span class="error-message" id="name-error"></span>
+
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email">
+    <span class="error-message" id="email-error"></span>
+
+    <label for="address">Cím:</label>
+    <textarea id="address" name="address"></textarea>
+    <span class="error-message" id="address-error"></span>
+
+    <label for="model">Modellválasztás:</label>
+    <div id="model-wrapper">
+        <select id="model" name="model">
+            <option value="">Válassz modellt...</option>
+        </select>
+    </div>
+    <span class="error-message" id="model-error"></span>
+
+    <label>Színek:</label>
+    <input type="color" id="color" name="color">
+
+    <label>Dátum kiválasztása:</label>
+    <input type="date" id="date" name="date">
+
+    <label>Extrák:</label>
+    <label class="extra-option">
+        <input type="checkbox" id="spoiler" name="extras" value="Spoiler"> Spoiler
+    </label>
+    <label class="extra-option">
+        <input type="checkbox" id="sound" name="extras" value="High-End Hangrendszer"> High-End Hangrendszer
+    </label>
+
+    <label>Fizetési mód:</label>
+    <span class="payment-option">
+        <input type="radio" id="card" name="payment" value="Kártya">
+        <label for="card">Kártya</label>
+    </span>
+    <span class="payment-option">
+        <input type="radio" id="cash" name="payment" value="Készpénz">
+        <label for="cash">Készpénz</label>
+    </span>
+    <span class="error-message" id="payment-error"></span>
+
+    <button type="submit">Megrendelem</button>
+</form>
+
+<div id="order-summary"></div>
+
+</body>
+</html>
+\end{lstlisting}
+
+\section{JavaScript / jQuery Funkciók}
+A JavaScript felelős a JSON adatbetöltésért, form validációért és a rendelés összefoglaló megjelenítéséért.
+
+\begin{lstlisting}[language=JavaScript]
+$(document).ready(function() {
+
+    let carData = [];
+
+    // JSON betöltése
+    $.ajax({
+        url: "ajax/Revuelto.json",
+        dataType: "json",
+        success: function(data) {
+            carData = data.cars;
+            data.cars.forEach(function(car) {
+                $("#model").append(`<option value="${car.name}">${car.name}</option>`);
+            });
+        }
+    });
+
+    // Form validáció
+    $("#carOrderForm").submit(function(e) {
+        e.preventDefault();
+        let valid = true;
+
+        if($("#name").val().trim() === "") {
+            $("#name").addClass("error");
+            $("#name-error").text("Kérlek add meg a neved!");
+            valid = false;
+        } else {
+            $("#name").removeClass("error");
+            $("#name-error").text("");
+        }
+
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if(!emailPattern.test($("#email").val())) {
+            $("#email").addClass("error");
+            $("#email-error").text("Érvényes email cím szükséges!");
+            valid = false;
+        } else {
+            $("#email").removeClass("error");
+            $("#email-error").text("");
+        }
+
+        if($("#address").val().trim() === "") {
+            $("#address").addClass("error");
+            $("#address-error").text("Add meg a címed!");
+            valid = false;
+        } else {
+            $("#address").removeClass("error");
+            $("#address-error").text("");
+        }
+
+        if($("#model").val().trim() === "") {
+            $("#model").addClass("error");
+            $("#model-error").text("Válassz modellt!");
+            valid = false;
+        } else {
+            $("#model").removeClass("error");
+            $("#model-error").text("");
+        }
+
+        if(!$("input[name='payment']:checked").val()) {
+            $("#payment-error").text("Válassz fizetési módot!");
+            valid = false;
+        } else {
+            $("#payment-error").text("");
+        }
+
+        if(valid) {
+            const selectedModel = $("#model").val();
+            const selectedCar = carData.find(car => car.name === selectedModel);
+            const price = selectedCar ? selectedCar.price : "Ismeretlen";
+
+            const extras = $("input[name='extras']:checked")
+                                .map(function(){ return this.value; })
+                                .get().join(", ") || "Nincs";
+
+            const summary = `<h3>Rendelés összefoglaló:</h3>
+                             <p>Név: ${$("#name").val()}</p>
+                             <p>Email: ${$("#email").val()}</p>
+                             <p>Cím: ${$("#address").val()}</p>
+                             <p>Modell: ${selectedModel}</p>
+                             <p><strong>Ár: ${price} Ft</strong></p>
+                             <p>Szín: <span style="color:${$("#color").val()}">${$("#color").val()}</span></p>
+                             <p>Dátum: ${$("#date").val()}</p>
+                             <p>Extrák: ${extras}</p>
+                             <p>Fizetés: ${$("input[name='payment']:checked").val()}</p>`;
+
+            $("#order-summary").html(summary).fadeIn();
+        }
+    });
+});
+\end{lstlisting}
+
+\section{Funkcionális Leírás}
+\begin{itemize}
+    \item \textbf{Videó háttér:} Automatikusan indul, némított videó.
+    \item \textbf{Form validáció:} Ellenőrzi a kötelező mezőket és a helyes e-mail formátumot.
+    \item \textbf{Modellek betöltése:} JSON fájlból történik, dinamikusan feltölti a legördülő listát.
+    \item \textbf{Rendelés összefoglaló:} Dinamikusan megjeleníti a felhasználó választásait.
+    \item \textbf{Animációk:} Gombok, elemek és overlay animációk CSS `@keyframes` segítségével.
+\end{itemize}
+
+\end{document}

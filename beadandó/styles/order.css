@@ -1,0 +1,210 @@
+@import url("https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap");
+
+        * { margin: 0; padding: 0; box-sizing: border-box;}
+        :root { --primary: #b07c0c; }
+
+        body {
+    font-family: 'Lato', sans-serif;
+    font-size: 14px;
+    color: #eee;
+    background: black;
+    overflow-x: hidden;
+    
+    /* Új: középre rendezés */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    }
+
+    body::before {
+    content: "";
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.5); /* sötétítés */
+    z-index: -1;
+    }
+
+
+        h1, h2 { 
+            font-size: 30px;
+            font-weight: 500;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+
+        }
+
+        p {
+            color: #eee;
+        
+        }
+
+        /* Form stílusok */
+        form {
+    position: relative;
+    background: #111;
+    padding: 30px;
+    border-radius: 15px;
+    max-width: 500px;
+    margin-bottom: 20px;
+    
+    display: none; /* alapból rejtett */
+}
+
+
+        form input, form textarea, form datalist {
+            background: #222;
+            border: 1px solid #555;
+            padding: 10px;
+            border-radius: 8px;
+            color: #eee;
+            font-size: 14px;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        form input.error, form textarea.error {
+            border-color: red;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 12px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            font-family: 'Lato';
+            background: var(--primary);
+            border: none;
+            color: #111;
+            font-size: 16px;
+            padding: 12px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: all 0.4s;
+        }
+
+        button:hover {
+            scale: 1.05;
+        }
+
+        #order-summary {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #555;
+            border-radius: 10px;
+            background: #111;
+            display: none;
+        }
+
+        
+
+        /* Lamborghini modellek listája */
+        #car-list p {
+            padding: 10px;
+            border-bottom: 1px solid #333;
+        }
+
+        #car-list strong { color: var(--primary); }
+
+        /* Label stílus */
+        label {
+            font-weight: 700;
+            display: block;
+            margin-bottom: auto;
+        }
+
+        /* Fizetési mód radio stílus */
+        .payment-option {
+            display: inline-block;
+            margin-right: 15px;
+            color: #eee;
+            cursor: pointer;
+        }
+
+        input[type="radio"] {
+            margin-right: 5px;
+            vertical-align: middle;
+        }
+
+        #background-video {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;      /* teljes szélesség */
+        height: 100vh;     /* teljes magasság */
+        object-fit: cover;  /* kitölti a képernyőt, arányokat megtartva */
+        z-index: -2;        /* a háttérbe küldi */
+        }
+
+        .extra-option {
+            display: flex;
+            align-items: center;   /* KÖZÉPRE igazítja a checkboxot a szöveghez */
+            gap: 10px;             /* távolság a négyzet és a szöveg között */
+            margin-bottom: 8px;
+            cursor: pointer;
+        }
+
+.extra-option input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}
+
+#model {
+    width: 100%;
+    padding: 12px 15px;
+    margin: 10px 0 20px 0;
+    border: 2px solid #555;
+    border-radius: 12px;
+    background-color: #222;
+    color: #eee;
+    font-size: 16px;
+    font-weight: 500;
+    appearance: none;       /* Natív nyíl eltüntetése */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+/* Hover és fókusz állapot */
+#model:hover {
+    border-color: var(--primary);
+}
+
+#model:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 8px rgba(176, 124, 12, 0.6);
+    outline: none;
+}
+
+/* Opciók stílusa */
+#model option {
+    background-color: #222;
+    color: #eee;
+    padding: 10px;
+}
+
+/* Egyedi lefelé nyíl hozzáadása */
+#model-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+#model-wrapper::after {
+    content: "▼";
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: var(--primary);
+    font-size: 12px;
+}

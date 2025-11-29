@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <title>Mclaren P1 Megrendelés</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <link rel="stylesheet" href="styles/order.css">
+</head>
+<body>
+
+<video autoplay muted loop id="background-video">
+    <source src="kepek/P1.mp4" type="video/mp4">
+</video>
+
+<h1>Mclaren P1 Megrendelés</h1>
+
+<form id="carOrderForm">
+    <label for="name">Név:</label>
+    <input type="text" id="name" name="name">
+    <span class="error-message" id="name-error"></span>
+
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email">
+    <span class="error-message" id="email-error"></span>
+
+    <label for="address">Cím:</label>
+    <textarea id="address" name="address"></textarea>
+    <span class="error-message" id="address-error"></span>
+
+    <label for="model">Modellválasztás:</label>
+    <div id="model-wrapper">
+    <select id="model" name="model">
+        <option value="">Válassz modellt...</option>
+    </select>
+    </div>
+
+    <span class="error-message" id="model-error"></span>
+
+    <label>Színek:</label>
+    <input type="color" id="color" name="color">
+
+    <label>Dátum kiválasztása:</label>
+    <input type="date" id="date" name="date">
+
+    <label>Extrák:</label>
+
+    <label class="extra-option">
+        <input type="checkbox" id="spoiler" name="extras" value="Spoiler">
+        Spoiler
+    </label>
+
+    <label class="extra-option">
+        <input type="checkbox" id="sound" name="extras" value="High-End Hangrendszer">
+        High-End Hangrendszer
+    </label>
+
+    <label>Fizetési mód:</label>
+    <span class="payment-option">
+        <input type="radio" id="card" name="payment" value="Kártya">
+        <label for="card">Kártya</label>
+    </span>
+    <span class="payment-option">
+        <input type="radio" id="cash" name="payment" value="Készpénz">
+        <label for="cash">Készpénz</label>
+    </span>
+    <span class="error-message" id="payment-error"></span>
+
+    <button type="submit">Megrendelem</button>
+</form>
+
+
+
+<div id="order-summary"></div>
+
+<script>
+$(document).ready(function() {
+
+    $("#carOrderForm").slideDown(1000);
+
+    let carData = [];
+
+    // JSON betöltése
+    $.ajax({
+    url: "ajax/P1.json",
+    dataType: "json",
+    success: function(data) {
+        carData = data.cars;
+
+        data.cars.forEach(function(car) {
+            $("#car-list").append(`<p><strong>${car.name}</strong> - Ár: ${car.price} Ft</p>`);
+            $("#model").append(`<option value="${car.name}">${car.name}</option>`);
+        });
+    }
+    });
+
+
+    // Form validáció
+    $("#carOrderForm").submit(function(e) {
+        e.preventDefault();
+        let valid = true;
+
+        if($("#name").val().trim() === "") {
+            $("#name").addClass("error");
+            $("#name-error").text("Kérlek add meg a neved!");
+            valid = false;
+        } else {
+            $("#name").removeClass("error");
+            $("#name-error").text("");
+        }
+
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if(!emailPattern.test($("#email").val())) {
+            $("#email").addClass("error");
+            $("#email-error").text("Érvényes email cím szükséges!");
+            valid = false;
+        } else {
+            $("#email").removeClass("error");
+            $("#email-error").text("");
+        }
+
+        if($("#address").val().trim() === "") {
+            $("#address").addClass("error");
+            $("#address-error").text("Add meg a címed!");
+            valid = false;
+        } else {
+            $("#address").removeClass("error");
+            $("#address-error").text("");
+        }
+
+        if($("#model").val().trim() === "") {
+            $("#model").addClass("error");
+            $("#model-error").text("Válassz modellt!");
+            valid = false;
+        } else {
+            $("#model").removeClass("error");
+            $("#model-error").text("");
+        }
+
+        if(!$("input[name='payment']:checked").val()) {
+            $("#payment-error").text("Válassz fizetési módot!");
+            valid = false;
+        } else {
+            $("#payment-error").text("");
+        }
+
+        if(valid) {
+
+            const selectedModel = $("#model").val();
+            const selectedCar = carData.find(car => car.name === selectedModel);
+            const price = selectedCar ? selectedCar.price : "Ismeretlen";
+
+            const extras = $("input[name='extras']:checked")
+                                .map(function(){ return this.value; })
+                                .get().join(", ") || "Nincs";
+
+            const summary = `<h3>Rendelés összefoglaló:</h3>
+                             <p>Név: ${$("#name").val()}</p>
+                             <p>Email: ${$("#email").val()}</p>
+                             <p>Cím: ${$("#address").val()}</p>
+                             <p>Modell: ${selectedModel}</p>
+                             <p><strong>Ár: ${price} Ft</strong></p>
+                             <p>Szín: <span style="color:${$("#color").val()}">${$("#color").val()}</span></p>
+                             <p>Dátum: ${$("#date").val()}</p>
+                             <p>Extrák: ${extras}</p>
+                             <p>Fizetés: ${$("input[name='payment']:checked").val()}</p>`;
+
+            $("#order-summary").html(summary).fadeIn();
+        }
+    });
+});
+</script>
+
+</body>
+</html>
