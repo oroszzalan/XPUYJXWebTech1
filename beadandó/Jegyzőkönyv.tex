@@ -1,268 +1,314 @@
 \documentclass[a4paper,12pt]{article}
-
-% XeLaTeX / LuaLaTeX alapú Unicode kezelés
-\usepackage{fontspec} % Unicode fontok
-\setmainfont{Lato}    % Google fontod, vagy bármilyen TTF/OTF
-\usepackage{xcolor}
-\usepackage{listings}
-\usepackage{hyperref}
-\usepackage{graphicx}
-\usepackage{setspace}
-\usepackage{ragged2e}
+\usepackage[magyar]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
 \usepackage{geometry}
-\geometry{margin=2.5cm}
-\setstretch{1.3}
-\justifying
+\geometry{left=25mm,right=25mm,top=25mm,bottom=25mm}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{sectsty}
+\usepackage{float}
+\usepackage{caption}
+\usepackage[utf8]{inputenc}
 
-% Kód formázás
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{\thepage}
+\cfoot{}
+
+\sectionfont{\Large\bfseries}
+\subsectionfont{\large\bfseries}
+\subsubsectionfont{\bfseries}
+
 \lstset{
-    basicstyle=\ttfamily\small,
-    keywordstyle=\color{blue},
-    commentstyle=\color{green!50!black},
-    stringstyle=\color{red},
-    breaklines=true,
-    frame=single,
-    numbers=left,
-    numberstyle=\tiny\color{gray},
-    showstringspaces=false
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue},
+  stringstyle=\color{red},
+  commentstyle=\color{gray},
+  numbers=left,
+  numberstyle=\tiny,
+  stepnumber=1,
+  numbersep=10pt,
+  backgroundcolor=\color{white},
+  showspaces=false,
+  showstringspaces=false,
+  frame=single,
+  tabsize=2,
+  captionpos=b,
+  breaklines=true,
+  language=HTML,
+  morekeywords={class, id, onclick}
 }
+
+\title{\Huge\textbf{JEGYZŐKÖNYV}}
 \author{}
-\date{\today}
+\date{}
 
 \begin{document}
 
-\maketitle
+\begin{titlepage}
+    \centering
+    \vspace*{3cm}
+    {\Huge\bfseries JEGYZŐKÖNYV\par}
+    \vspace{2cm}
+    {\LARGE Web Technológiák 1.\par}
+    \vspace{1cm}
+    {\LARGE Féléves feladat\par}
+    \vspace{1cm}
+    {\LARGE Sportautók – interaktív prezentáció\par}
+    \vspace{3cm}
+    {\large Készítette: \textbf{Orosz Zalán Zétény}\par}
+    {\large Neptun kód: \textbf{XPUYJX}\par}
+    {\large Dátum: 2025. december\par}
+    \vspace{2cm}
+    {\large Miskolc, 2025\par}
+\end{titlepage}
+
 \tableofcontents
 \newpage
 
 \section{Bevezetés}
-Ez a dokumentáció a Lamborghini Revuelto megrendelő weboldal teljes kódját és funkcionalitását mutatja be. Az oldal célja, hogy a felhasználó kiválaszthassa a modellt, színt, extrákat, fizetési módot, dátumot, és megjelenítse a rendelés összefoglalóját.
+A modern weboldalak napjainkban már messze túlmutatnak a statikus tartalom megjelenítésén. A HTML5, CSS3, JavaScript és külső könyvtárak (Swiper.js, Font Awesome) kombinációjával látványos, interaktív, mobilbarát prezentációk készíthetők. A jelen feladat egy luxus sportautókat bemutató egyoldalas webalkalmazás, amely Swiper.js alapú carousel-t, animációkat, overlay videó lejátszót, dinamikus címváltoztatást és részletes műszaki adatlapot tartalmaz.
 
-\section{CSS Stílusok}
-A CSS felelős az oldal kinézetéért, animációkért és interaktív elemekért.
+\section{Feladat leírása}
+A dokumentum egy Lamborghini, McLaren és BMW sportautókat bemutató, látványos egyoldalas weboldalt ír le, amely HTML, CSS, JavaScript és a Swiper.js könyvtár segítségével készült. A cél egy prémium autóipari stílusú, teljesen reszponzív, sötét témájú prezentáció létrehozása, ahol a felhasználó böngészheti az autókat, megnézheti a videókat, és konfigurálásra továbbmehet.
 
-\begin{lstlisting}[language=CSS]
-@import url("https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap");
+\section{Weblap felépítése}
+\subsection{Fejléc és főcím}
+A fejléc fixen a tetején helyezkedik el, tartalmazza a hamburger ikont és nyelvválasztót. A főcím dinamikusan változik az aktív slide alapján (JavaScript \texttt{changeTitle()} függvény).
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
-:root { --primary: #b07c0c; }
+\subsection{Swiper carousel}
+A Swiper.js két példánya fut: egy fő carousel (\texttt{.bannerSwiper}) és egy thumbnail sáv (\texttt{.thumbsSwiper}), amelyek szinkronban vannak.
 
-body {
-    position: relative;
-    height: 100vh;
-    width: 100vw;
-    font-family: 'Lato', sans-serif;
-    font-size: 14px;
-    color: #eee;
-    background: black;
-    overflow: hidden;
-}
+\subsection{Interaktív elemek}
+\begin{itemize}
+    \item \texttt{EXPLORE} gomb – részletes nézet megnyitása
+    \item \texttt{Külső} gomb – műszaki adatok megjelenítése
+    \item \texttt{Buy} gomb – külső konfigurátor oldalra navigálás
+    \item Lejátszás gomb – videó overlay megjelenítése
+\end{itemize}
 
-/* Fejléc és navigáció */
-.header { display:flex; justify-content:space-between; padding:20px 40px; position:absolute; width:100%; top:0; z-index:1000; }
-nav ul { display:flex; gap:30px; }
-nav ul li a { color:#eee; font-size:20px; text-transform:capitalize; }
-a:hover { color:var(--primary); }
+\newpage
 
-/* Tartalom és animációk */
-.content { display:flex; gap:20px; position:absolute; left:30px; top:16vh; transition:all 0.6s; }
-.title h1 { font-size:50px; font-weight:800; text-transform:uppercase; animation:slideRight 0.7s cubic-bezier(0.52, 0.19, 0.3, 1.46); }
-#subtitle p { margin-top:20px; font-size:25px; animation:slideRight 0.7s; }
-button { font-family:'Lato'; background:transparent; border:none; color:#eee; cursor:pointer; transition:all 0.7s; letter-spacing:2px; animation:slideUp 0.6s; }
-button:hover { transform:scale(1.1); }
+\section{Scriptek}
 
-.banner { height:calc(100vh - 100px); width:100%; position:absolute; top:0; left:0; }
-.swiper-slide img { object-fit:cover; transform:scaleX(-1); }
-.thumbsSwiper .swiper-slide:hover { transform:scale(1.1); }
-.slide-title { font-size:90px; color:#eeeeee61; text-transform:uppercase; display:none; }
-.buy-btn { font-size:30px; position:absolute; bottom:70px; left:49.3%; cursor:pointer; display:none; transition:all 0.5s ease-in-out; color:#000; z-index:3333; }
+\subsection{Autók adatai objektumban}
+\begin{lstlisting}
+var nevek = {
+    0: { cim: "KONFIGURALD <br>REVUELTO", alcim: "FROM NOW ON", ... },
+    1: { cim: "KONFIGURALD <br>HURACAN STO", ... },
+    ...
+};
+\end{lstlisting}
+Az objektum tárolja az egyes autók címét, alcímét, videó URL-jét és logóját.
 
-.overlay { display:none; height:100vh; width:100vw; position:fixed; padding:20px; background-color:#000000f7; z-index:1000000; animation:grow 0.7s; }
+\subsection{Swiper inicializálása}
+\begin{lstlisting}
+var thumbsSwiper = new Swiper(".thumbsSwiper", { ... });
+const swiper = new Swiper(".bannerSwiper", {
+    thumbs: { swiper: thumbsSwiper },
+    speed: 1000,
+    ...
+});
+\end{lstlisting}
+A thumbnail és a fő carousel összekapcsolása a \texttt{thumbs} opcióval.
 
-/* Animációk */
-@keyframes slideLeft { 0% {opacity:0; transform:translateX(300%);} 100% {opacity:1; transform:translateX(0);} }
-@keyframes slideRight { 0% {opacity:0; transform:translateX(-130px);} 100% {opacity:1; transform:translateX(0);} }
-@keyframes slideUp { 0% {opacity:0; transform:translateY(200%);} 100% {opacity:1; transform:translateY(0);} }
-@keyframes zoomIn { 0% {opacity:0; transform:scale(0);} 100% {opacity:1; transform:scale(1);} }
+\subsection{Dinamikus cím és logó váltás}
+\begin{lstlisting}
+changeTitle = (index) => {
+    const data = nevek[index];
+    document.querySelector("#title").innerHTML = `<h1>${data.cim}</h1>`;
+    document.querySelector("#subtitle").innerHTML = `<p>${data.alcim}</p>`;
+    document.querySelectorAll('img.logo').forEach(img => 
+        img.src = `kepek/${data.logo}`);
+};
+
 \end{lstlisting}
 
-\section{HTML Szerkezet}
-A weboldal HTML struktúrája tartalmazza a formot, videó háttér elemet, és a rendelés összefoglalót.
+Listing 1. Dinamikus cím és logó váltás
 
-\begin{lstlisting}[language=HTML]
-<!DOCTYPE html>
-<html lang="hu">
-<head>
-<meta charset="UTF-8">
-<title>Lamborghini Revuelto Megrendelés</title>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<link rel="stylesheet" href="styles/order.css">
-</head>
-<body>
+\subsection{EXPLORE gomb működése}
+Az \texttt{EXPLORE} gomb elrejti a thumbnail sávot és a főoldali címeket, hogy helyet adjon a részletes slide-nak.
 
-<video autoplay muted loop id="background-video">
-    <source src="kepek/revuelto.mp4" type="video/mp4">
-</video>
-
-<h1>Lamborghini Revuelto Megrendelés</h1>
-
-<form id="carOrderForm">
-    <label for="name">Név:</label>
-    <input type="text" id="name" name="name">
-    <span class="error-message" id="name-error"></span>
-
-    <label for="email">Email:</label>
-    <input type="email" id="email" name="email">
-    <span class="error-message" id="email-error"></span>
-
-    <label for="address">Cím:</label>
-    <textarea id="address" name="address"></textarea>
-    <span class="error-message" id="address-error"></span>
-
-    <label for="model">Modellválasztás:</label>
-    <div id="model-wrapper">
-        <select id="model" name="model">
-            <option value="">Válassz modellt...</option>
-        </select>
-    </div>
-    <span class="error-message" id="model-error"></span>
-
-    <label>Színek:</label>
-    <input type="color" id="color" name="color">
-
-    <label>Dátum kiválasztása:</label>
-    <input type="date" id="date" name="date">
-
-    <label>Extrák:</label>
-    <label class="extra-option">
-        <input type="checkbox" id="spoiler" name="extras" value="Spoiler"> Spoiler
-    </label>
-    <label class="extra-option">
-        <input type="checkbox" id="sound" name="extras" value="High-End Hangrendszer"> High-End Hangrendszer
-    </label>
-
-    <label>Fizetési mód:</label>
-    <span class="payment-option">
-        <input type="radio" id="card" name="payment" value="Kártya">
-        <label for="card">Kártya</label>
-    </span>
-    <span class="payment-option">
-        <input type="radio" id="cash" name="payment" value="Készpénz">
-        <label for="cash">Készpénz</label>
-    </span>
-    <span class="error-message" id="payment-error"></span>
-
-    <button type="submit">Megrendelem</button>
-</form>
-
-<div id="order-summary"></div>
-
-</body>
-</html>
-\end{lstlisting}
-
-\section{JavaScript / jQuery Funkciók}
-A JavaScript felelős a JSON adatbetöltésért, form validációért és a rendelés összefoglaló megjelenítéséért.
-
-\begin{lstlisting}[language=JavaScript]
-$(document).ready(function() {
-
-    let carData = [];
-
-    // JSON betöltése
-    $.ajax({
-        url: "ajax/Revuelto.json",
-        dataType: "json",
-        success: function(data) {
-            carData = data.cars;
-            data.cars.forEach(function(car) {
-                $("#model").append(`<option value="${car.name}">${car.name}</option>`);
-            });
-        }
-    });
-
-    // Form validáció
-    $("#carOrderForm").submit(function(e) {
-        e.preventDefault();
-        let valid = true;
-
-        if($("#name").val().trim() === "") {
-            $("#name").addClass("error");
-            $("#name-error").text("Kérlek add meg a neved!");
-            valid = false;
-        } else {
-            $("#name").removeClass("error");
-            $("#name-error").text("");
-        }
-
-        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if(!emailPattern.test($("#email").val())) {
-            $("#email").addClass("error");
-            $("#email-error").text("Érvényes email cím szükséges!");
-            valid = false;
-        } else {
-            $("#email").removeClass("error");
-            $("#email-error").text("");
-        }
-
-        if($("#address").val().trim() === "") {
-            $("#address").addClass("error");
-            $("#address-error").text("Add meg a címed!");
-            valid = false;
-        } else {
-            $("#address").removeClass("error");
-            $("#address-error").text("");
-        }
-
-        if($("#model").val().trim() === "") {
-            $("#model").addClass("error");
-            $("#model-error").text("Válassz modellt!");
-            valid = false;
-        } else {
-            $("#model").removeClass("error");
-            $("#model-error").text("");
-        }
-
-        if(!$("input[name='payment']:checked").val()) {
-            $("#payment-error").text("Válassz fizetési módot!");
-            valid = false;
-        } else {
-            $("#payment-error").text("");
-        }
-
-        if(valid) {
-            const selectedModel = $("#model").val();
-            const selectedCar = carData.find(car => car.name === selectedModel);
-            const price = selectedCar ? selectedCar.price : "Ismeretlen";
-
-            const extras = $("input[name='extras']:checked")
-                                .map(function(){ return this.value; })
-                                .get().join(", ") || "Nincs";
-
-            const summary = `<h3>Rendelés összefoglaló:</h3>
-                             <p>Név: ${$("#name").val()}</p>
-                             <p>Email: ${$("#email").val()}</p>
-                             <p>Cím: ${$("#address").val()}</p>
-                             <p>Modell: ${selectedModel}</p>
-                             <p><strong>Ár: ${price} Ft</strong></p>
-                             <p>Szín: <span style="color:${$("#color").val()}">${$("#color").val()}</span></p>
-                             <p>Dátum: ${$("#date").val()}</p>
-                             <p>Extrák: ${extras}</p>
-                             <p>Fizetés: ${$("input[name='payment']:checked").val()}</p>`;
-
-            $("#order-summary").html(summary).fadeIn();
-        }
+\begin{lstlisting}
+explore.forEach((el) => { 
+    el.addEventListener("click", function() {
+        thumbs.classList.add("hide");
+        contents.forEach((e) => e.classList.add("hide"));
+        headers.forEach((e) => e.classList.add("hide"));
+        el.classList.add("hide");
     });
 });
 \end{lstlisting}
 
-\section{Funkcionális Leírás}
+\subsection{Műszaki adatok megjelenítése}
+A \texttt{Külső} gomb a \texttt{details} osztály hozzáadásával nyitja meg az adatlapot, és megjeleníti a \texttt{Buy} gombot.
+
+\begin{lstlisting}
+slideBtns.forEach(el => { 
+    el.addEventListener("click", function() {
+        document.querySelector(".swiper-slide-active")
+            .classList.add("details");
+        let buyBtn = activeSlide.querySelector(".buy-btn");
+        if (buyBtn) buyBtn.style.display = "block";
+    });
+});
+\end{lstlisting}
+
+\subsection{Videó overlay kezelése}
+\begin{lstlisting}
+var showTrailer =() => {
+    var index = swiper.activeIndex;
+    videoContainer.innerHTML = `
+        <video controls autoplay>
+            <source src="kepek/${nevek[index].videoURL}" type="video/mp4">
+        </video>`;
+    overlay.classList.add("show");
+};
+
+var closeOverlay =() => {
+    document.getElementById("video").pause();
+    overlay.classList.remove("show");
+};
+\end{lstlisting}
+
+Listing 2. Videó overlay megnyitása és bezárása
+
+\subsection{Buy gomb – külső oldalra navigálás}
+\begin{lstlisting}
+var externalPages = ["revuelto.html", "sto.html", ...];
+
+buyBtns.forEach((btn, index) => {
+    btn.addEventListener("click", function() {
+        window.location.href = externalPages[index];
+    });
+});
+\end{lstlisting}
+
+Listing 3. Külső konfigurátor oldalakra ugrás
+
+\newpage
+
+\section{A konfigurációs oldal (revuelto.html)}
+
+\subsection{Háttérvideó}
+\begin{lstlisting}
+<video autoplay muted loop id="background-video">
+    <source src="kepek/revuelto.mp4" type="video/mp4">
+</video>
+\end{lstlisting}
+Autoplay, némított, végtelenített háttérvideó adja a prémium hatást.
+
+\subsection{A rendelési űrlap felépítése}
+Az űrlap tartalmazza:
 \begin{itemize}
-    \item \textbf{Videó háttér:} Automatikusan indul, némított videó.
-    \item \textbf{Form validáció:} Ellenőrzi a kötelező mezőket és a helyes e-mail formátumot.
-    \item \textbf{Modellek betöltése:} JSON fájlból történik, dinamikusan feltölti a legördülő listát.
-    \item \textbf{Rendelés összefoglaló:} Dinamikusan megjeleníti a felhasználó választásait.
-    \item \textbf{Animációk:} Gombok, elemek és overlay animációk CSS `@keyframes` segítségével.
+    \item Személyes adatok (név, email, cím)
+    \item Modellválasztás (JSON-ból dinamikusan töltve)
+    \item Színválasztó (\texttt{<input type="color">})
+    \item Dátumválasztó
+    \item Extrák (checkbox)
+    \item Fizetési mód (radio)
 \end{itemize}
+
+\subsection{JSON-ból modellbetöltés}
+\begin{lstlisting}
+$.ajax({
+    url: "ajax/Revuelto.json",
+    dataType: "json",
+    success: function(data) {
+        data.cars.forEach(function(car) {
+            $("#model").append(
+                `<option value="${car.name}">${car.name}</option>`
+            );
+        });
+    }
+});
+\end{lstlisting}
+
+Listing 5. Modellválaszték betöltése JSON-ból
+
+\newpage
+
+\subsection{jQuery alapú validáció és összefoglaló}
+A beküldéskor client-oldali validáció fut:
+
+\begin{lstlisting}
+$("#carOrderForm").submit(function(e) {
+    e.preventDefault();
+    let valid = true;
+
+    
+    
+    if(valid) {
+        const selectedCar = carData.find(car => car.name === $("#model").val());
+        const price = selectedCar ? selectedCar.price : "Ismeretlen";
+
+        const extras = $("input[name='extras']:checked")
+            .map(function(){ return this.value; }).get().join(", ") || "Nincs";
+
+        const summary = `<h3>Rendeles osszefoglalo:</h3>
+                         <p><strong>Ar: ${price} Ft</strong></p>
+                         <p>Szin: <span style="color:${$("#color").val()}">
+                            ${$("#color").val()}</span></p>
+                         <p>Extrak: ${extras}</p>`;
+                         
+        $("#order-summary").html(summary).fadeIn();
+    }
+});
+\end{lstlisting}
+
+Listing 6. Űrlap validáció és rendelés-összefoglaló
+
+\subsection{Hibajelzés és vizuális visszajelzés}
+Hibás mezőknél piros keret és egyedi hibaüzenet jelenik meg:
+\begin{lstlisting}
+.error { border: 2px solid red !important; }
+.error-message { color: red; font-size: 0.9em; }
+\end{lstlisting}
+
+\newpage
+\section{A Revuelto.json fájl példája}
+\begin{lstlisting}[caption=Példa JSON struktúra]
+{
+    "cars": [
+        {
+            "name": "Revuelto Standard",
+            "price": "189000000"
+        },
+        {
+            "name": "Revuelto S",
+            "price": "215000000"
+        },
+        {
+            "name": "Revuelto Performante",
+            "price": "248000000"
+        }
+    ]
+}
+\end{lstlisting}
+
+Listing 7. Revuelto.json fájl
+
+\section{Külső könyvtárak}
+\begin{itemize}
+    \item \textbf{Swiper.js v10} – carousel és thumbnail kezelés
+    \item \textbf{Font Awesome 7} – ikonok
+    \item \textbf{Google Fonts – Lato} – betűtípus
+\end{itemize}
+
+\section{Összegzés}
+A weboldal teljes mértékben kihasználja a modern webtechnológiák nyújtotta lehetőségeket:
+\begin{itemize}
+    \item Dinamikus tartalom JavaScript objektumból
+    \item Szinkronizált carousel és thumbnail
+    \item Animált átmenetek CSS-ben és JavaScriptben
+    \item Videó overlay autoplay-jal
+    \item Külső konfigurátor oldalakra mutató linkek
+    \item Teljesen reszponzív, prémium megjelenés
+\end{itemize}
+
+A kód tiszta, jól strukturált, könnyen bővíthető további autómodellekkel.
 
 \end{document}
