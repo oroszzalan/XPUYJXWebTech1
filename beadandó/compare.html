@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sportautók összehasonlítása</title>
+    <link rel="stylesheet" href="styles/compare.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+</head>
+<body>
+
+    <!-- Animált háttér -->
+    <canvas id="canvas">Your browser doesn't support canvas</canvas>
+
+    <h1>Sportautók összehasonlítása</h1>
+
+    <div id="selectors">
+        <select id="car1">
+            <option value="">-- Válassz autót --</option>
+        </select>
+        <select id="car2">
+            <option value="">-- Válassz autót --</option>
+        </select>
+        <button onclick="compareCars()">Összehasonlítás</button>
+    </div>
+
+    <table id="comparisonTable">
+        <!-- Dinamikusan töltődik -->
+    </table>
+
+    <!-- SVG Goo filter -->
+    <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+        <defs>
+            <filter id="shadowed-goo">
+                <feGaussianBlur in="SourceGraphic" result="blur" stdDeviation="10" />
+                <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7" result="goo" />
+                <feGaussianBlur in="goo" stdDeviation="3" result="shadow" />
+                <feColorMatrix in="shadow" mode="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 -0.2" result="shadow" />
+                <feOffset in="shadow" dx="1" dy="1" result="shadow" />
+                <feBlend in2="shadow" in="goo" result="goo" />
+                <feBlend in2="goo" in="SourceGraphic" result="mix" />
+            </filter>
+            <filter id="goo">
+                <feGaussianBlur in="SourceGraphic" result="blur" stdDeviation="10" />
+                <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7" result="goo" />
+                <feBlend in2="goo" in="SourceGraphic" result="mix" />
+            </filter>
+        </defs>
+    </svg>
+
+    <script src="scripts/cars.js"></script>
+    <script src="scripts/canvasAnimation.js"></script>
+</body>
+</html>

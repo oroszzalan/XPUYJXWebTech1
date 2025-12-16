@@ -171,3 +171,16 @@ changeTitle = (index) => {
 swiper.on("slideChange", () => changeTitle(swiper.activeIndex || 0));
 // első beállítás betöltéskor
 changeTitle(swiper.activeIndex || 0);
+
+
+const compareBtn = document.getElementById("compareBtn");
+
+
+
+
+compareBtn.addEventListener("click", (e) => {
+    e.preventDefault(); // ne ugorjon fel az oldal tetejére
+    window.location.href = "compare.html";
+});
+
+
